@@ -1,0 +1,1619 @@
+Project Inetbanking
+Test cases
+Create maven project
+update POM.XML
+create page object
+Create basic test
+ 
+ ########## env. url###################
+url = http://automationpractice.com/
+######################################
+
+### Browser Configurations ###########
+browser = chrome
+maximize = yes
+### Only For Chrome Or FireFox #######
+headless = yes
+######################################
+ImplicitWait = 20
+PageLoadTimeout = 20
+WebDriverWaitTimeout = 20
+######## Java Script #################
+flashTheElement = no
+drawBorderToElement = no
+#####################################
+
+
+Locator:1
+package _9_CrossBrowserTesting._2_CrossBrowserTesting.locators;
+
+import org.openqa.selenium.By;
+
+public class LandingPage_Locators {
+
+	// Locators - Landing Page
+	public static By SigninButtonElement = By.xpath("//div/a[contains(text(),'Sign in')]");
+	public static By ProductCatoegoryList = By.xpath("//div[@id='block_top_menu']/ul/li/a");
+	public static By landingPageLogoImage = By.xpath("//img[@class='logo img-responsive']");
+	public static By searchBox = By.id("search_query_top");
+	public static By searchBoxResultList = By.xpath("//div[@class='ac_results']/ul/li");
+	public static By topMenuDressesCategory = By.xpath("(//div[@id='block_top_menu']//a[text()='Dresses' and @title='Dresses'])[2]");
+	public static By topMenuTShirtCategory = By.xpath("(//div[@id='block_top_menu']//a[text()='T-shirts'])[2]");
+	
+	// Social Media Links
+	public static By faceBookLink = By.xpath("//span[text()='Facebook']/parent::a");
+	public static By twitterLink = By.xpath("//span[text()='Twitter']/parent::a");
+	public static By youTubeLink = By.xpath("//span[text()='Youtube']/parent::a");
+	
+	// Newsletter subscription
+	public static By newsLetterEmailTextBoxElement = By.xpath("//input[@id='newsletter-input']");
+	public static By newsLetterEmailSendButtonElement = By.xpath("//button[@name='submitNewsletter']");
+	public static By newsLetterSubscriptionSuccessAlertElement = By.xpath("//p[@class='alert alert-success']");
+	
+	
+	package _9_CrossBrowserTesting._2_CrossBrowserTesting.locators;
+
+	import org.openqa.selenium.By;
+
+	public class ProductDetails {
+	
+	// Locators - ProductDetails Page - Dresses
+	public static By DressedPriceList = By.xpath("//div[@class='right-block']//div[@itemprop='offers']//span[@itemprop='price']");
+	
+	// Locators - ProductDetails Page - TShirt
+	public static By optionsToBuyProduct = By.xpath("//div[@class='right-block']");
+	public static By MoreOptionButton = By.xpath("//span[text()='More']");
+	public static By SendFriendButton = By.xpath("//a[@id='send_friend_button']");
+	public static By FrinedNameTextBox = By.xpath("//input[@id='friend_name']");
+	public static By FrinedEmailIdTextBox = By.xpath("//input[@id='friend_email']");
+	public static By FrinedMailSendButton = By.xpath("//button[@id='sendEmail']");
+	//public static By emailConfirmationMessageText = By.xpath("(//div[@class='fancybox-inner']/p)[1]");
+	public static By emailConfirmationMessageText = By.xpath("//div[@class='fancybox-inner']/h2/following-sibling::p[1]");
+	
+	public static By FadedTShritOrgangeColourImage = By.xpath("//img[@title='Faded Short Sleeve T-shirts']");
+	public static By FadedTShritBlueColourIcon = By.xpath("//a[@id='color_2']");
+	public static By FadedTShritBlueColourImage = By.xpath("//span[@id='view_full_size']//img[@title='Faded Short Sleeve T-shirts']");
+	
+	
+	
+
+}
+	Locator :2
+
+	package _9_CrossBrowserTesting._2_CrossBrowserTesting.locators;
+
+	import org.openqa.selenium.By;
+
+	public class SocialMediaPage_Locators {
+	
+	// Locators - Social Media Page Locators
+	public static By youtubeChannelNameElement = By.xpath("//div[@id='text-container']/child::yt-formatted-string[text()='Selenium Framework']");
+	public static By twitterChannelNameElement = By.xpath("//div[@data-testid='titleContainer']//span[text()='Selenium Framework']");
+	public static By facebookChannelNameElement = By.xpath("(//span[text()='Selenium Framework'])[1]");
+	
+}
+
+	package _9_CrossBrowserTesting._2_CrossBrowserTesting.tests;
+
+	import org.junit.runner.RunWith;
+	import org.junit.runners.Suite;
+
+
+	@RunWith(Suite.class)
+	@Suite.SuiteClasses
+	(
+		{
+			_3_Test.class,
+			_1_Test.class,
+			_2_Test.class
+		}
+	)
+
+	public class Runner 
+	{
+
+
+
+
+	}
+	
+	package _9_CrossBrowserTesting._2_CrossBrowserTesting.tests;
+
+	import java.util.ArrayList;
+	import java.util.List;
+	import java.util.Properties;
+
+	import org.apache.logging.log4j.core.config.Order;
+	import org.junit.After;
+	import org.junit.Assert;
+	import org.junit.Before;
+	import org.junit.Test;
+	import org.openqa.selenium.WebDriver;
+	import org.openqa.selenium.WebElement;
+	import org.openqa.selenium.support.ui.WebDriverWait;
+
+	import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.LandingPage_Locators;
+	import _9_CrossBrowserTesting._2_CrossBrowserTesting.utilities.ElementActions;
+	import _9_CrossBrowserTesting._2_CrossBrowserTesting.utilities.JavaScriptUtil;
+	import _9_CrossBrowserTesting._2_CrossBrowserTesting.utilities.Utils;
+	import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.LandingPage_Variables;
+
+public class _1_Test {
+
+	WebDriver driver;
+	WebDriverWait wait;
+	Properties prop;
+	Utils utils;
+	ElementActions elemementActions;
+	JavaScriptUtil javaScriptUtil;
+
+	@Before
+	public void setUp()
+	{
+		utils = new Utils();
+		prop = utils.init_prop();
+		driver = utils.init_driver(prop);
+		elemementActions = new ElementActions(driver);
+		wait = new WebDriverWait(driver, Integer.parseInt(prop.getProperty("WebDriverWaitTimeout")));
+		javaScriptUtil = new JavaScriptUtil(driver);
+	}
+
+
+	// 1. Url Redirection Test
+	@Test
+	public void _1_urlTest()
+	{
+		Assert.assertEquals("Url redirection is not as expected",LandingPage_Variables.ExpectedRedirectedURL, elemementActions.doGetcurrentURL());
+		System.out.println("Test -> 1. Url Redirection Test Passed");
+	}
+
+	// 2. Landing Page Title Test
+	@Test
+	public void _2_pageTitleTest()
+	{
+
+		Assert.assertEquals("Page title is incorrect",LandingPage_Variables.LandingPageTitle, elemementActions.doGetPageTitle());
+		System.out.println("Test -> 2. Landing Page Title Test passed");
+	}
+
+	// 3. Validate for all categories is displayed
+	@Test
+	public void _3_allCategoriesDisplayedTest()
+	{
+		ArrayList<String> expectedCategoryList = LandingPage_Variables.ExpectedMainProductCategories();
+
+		List<WebElement> actualProductCategoryList = elemementActions.getElementsList(LandingPage_Locators.ProductCatoegoryList);
+
+		for (int i = 0; i < expectedCategoryList.size(); i++) 
+		{
+			Assert.assertEquals("Product index no " + (i+1) + " is not matching with expected",expectedCategoryList.get(i), actualProductCategoryList.get(i).getText());
+		}
+
+		System.out.println("Test -> 3. Validate for all categories is displayed passed");
+	}
+
+	// 4. Validate Application Logo on landing page is displayed
+	@Test
+	public void _4_validateApplicationLogoOnLandingPage()
+	{
+		Assert.assertEquals("Application Logo on Landing Page is not Displayed",true, elemementActions.doIsDisplayed(LandingPage_Locators.landingPageLogoImage));
+		System.out.println("Test -> 4. Validate Application Logo on landing page is displayed passed");
+	}
+
+	// 5. Validate Application Logo Height on landing page
+	@Test
+	public void _5_validateApplicationLogoHeightOnLandingPage()
+	{
+		Assert.assertEquals("Apllication Logo height on Landing Page is not matching",LandingPage_Variables.ApplicationLogoHeight, elemementActions.getAttributeValue(LandingPage_Locators.landingPageLogoImage, "height", driver));
+		System.out.println("Test -> 5. Validate Application Logo Height on landing page passed");
+	}
+
+	@After
+	public void teardown()
+	{
+		driver.quit();
+	}
+
+
+}
+
+package _9_CrossBrowserTesting._2_CrossBrowserTesting.tests;
+
+import java.util.List;
+import java.util.Properties;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.AfterRegistartionPage_Locators;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.LandingPage_Locators;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.ProductDetails;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.RegisterUserDetailsPage_Locators;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.SignInPage_Locators;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.utilities.ElementActions;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.utilities.JavaScriptUtil;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.utilities.Utils;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.LandingPage_Variables;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.ProductDetails_Variables;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.RegisterUserDetailsPage_Variables;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.SignInPage_Variables;
+
+public class _2_Test {
+
+	WebDriver driver;
+	WebDriverWait wait;
+	Properties prop;
+	Utils utils;
+	ElementActions elemementActions;
+	JavaScriptUtil javaScriptUtil;
+
+	@Before
+	public void setUp()
+	{
+		utils = new Utils();
+		prop = utils.init_prop();
+		driver = utils.init_driver(prop);
+		elemementActions = new ElementActions(driver);
+		wait = new WebDriverWait(driver, Integer.parseInt(prop.getProperty("WebDriverWaitTimeout")));
+		javaScriptUtil = new JavaScriptUtil(driver);
+	}
+
+
+	// 6. Validate Application Logo Width on landing page
+	@Test
+	public void _6_validateApplicationLogowidthOnLandingPage()
+	{
+		Assert.assertEquals("Application Logo width on Landing Page is not matching", LandingPage_Variables.ApplicationLogoWidth, elemementActions.getAttributeValue(LandingPage_Locators.landingPageLogoImage, "width", driver));
+		System.out.println("Test -> 6. Validate Application Logo Width on landing page passed");
+	}
+
+	// 7. SignIn page title validation test
+	@Test
+	public void _7_SignInPageTitleValidationTest()
+	{
+		elemementActions.doClick(LandingPage_Locators.SigninButtonElement);
+
+		Assert.assertEquals("Signin Page Title is not matching", SignInPage_Variables.SignInPageTitle, elemementActions.doGetPageTitle());
+		System.out.println("Test -> 7. SignIn page title validation test passed");
+	}
+
+	// 8. Register User With New Email Id on SignIn Page
+	@Test
+	public void _8_RegisterNewUserTest()
+	{
+		_7_SignInPageTitleValidationTest();
+
+		elemementActions.doSendKeys(SignInPage_Locators.emailIdInputFieldElement, SignInPage_Variables.NewUserEmailID);
+
+		elemementActions.doClick(SignInPage_Locators.createAnAccountButtonElement);
+
+		Assert.assertEquals("\"Create an account\" text is not displayed on register user details page",RegisterUserDetailsPage_Variables.crateAnAccountExpectedText, elemementActions.doGetText(RegisterUserDetailsPage_Locators.CreateAnAccountTextElement));
+
+		elemementActions.doClick(RegisterUserDetailsPage_Locators.maleGenderRadioButtonElement);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.userFirstNameTextboxElement, RegisterUserDetailsPage_Variables.userFirstName);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.userLastNameTextboxElement, RegisterUserDetailsPage_Variables.userLastName);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.userPasswordTextboxElement, RegisterUserDetailsPage_Variables.userPassword);
+
+		elemementActions.selectByValueFromDropDown(RegisterUserDetailsPage_Locators.userDOBDayDropDownElement, RegisterUserDetailsPage_Variables.DOBDayValue);
+
+		elemementActions.selectByValueFromDropDown(RegisterUserDetailsPage_Locators.userDOBMonthDropDownElement, RegisterUserDetailsPage_Variables.DOBMonthValue);
+
+		elemementActions.selectByValueFromDropDown(RegisterUserDetailsPage_Locators.userDOBYearDropDownElement, RegisterUserDetailsPage_Variables.DOBYearValue);
+
+		if (RegisterUserDetailsPage_Variables.IsSignUpForNewsLetter) 
+		{
+			elemementActions.doClick(RegisterUserDetailsPage_Locators.signUpForNewsLetterCheckBoxElement);
+		}
+
+		if (RegisterUserDetailsPage_Variables.IsspecialOfferEmailRec) 
+		{
+			elemementActions.doClick(RegisterUserDetailsPage_Locators.specialOfferEmailRecCheckBoxElement);
+		}
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressComanyNameTextBoxElement, RegisterUserDetailsPage_Variables.AddressComanyName);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressLine1TextBoxElement, RegisterUserDetailsPage_Variables.AddressLine1Name);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressLine2TextBoxElement, RegisterUserDetailsPage_Variables.AddressLine2Name);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressCityTextBoxElement, RegisterUserDetailsPage_Variables.AddressCity);
+
+		elemementActions.selectByVisibleTextFromDropDown(RegisterUserDetailsPage_Locators.AddressStateDropDownElement, RegisterUserDetailsPage_Variables.AddressState);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressZipCodeTextBoxElement, RegisterUserDetailsPage_Variables.AddressZipCode);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressAdditionalInfoTextBoxElement, RegisterUserDetailsPage_Variables.AddressAdditionalInfo);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressMobilePhoneTextBoxElement, RegisterUserDetailsPage_Variables.AddressMobilePhone);
+
+		elemementActions.doClick(RegisterUserDetailsPage_Locators.registerFormButtonElement);
+
+		elemementActions.waitForElementVisible(AfterRegistartionPage_Locators.registeredUserNameDisplayElement);
+		Assert.assertEquals("Registered User First Name And Last Name is not displayed correctly after registration", RegisterUserDetailsPage_Variables.userFirstName + " " + RegisterUserDetailsPage_Variables.userLastName,
+				elemementActions.doGetText(AfterRegistartionPage_Locators.registeredUserNameDisplayElement));
+
+		System.out.println("User Registered Successfully as -> " + RegisterUserDetailsPage_Variables.userFirstName + " " + RegisterUserDetailsPage_Variables.userLastName);
+
+		System.out.println("Test -> 8. Register User With New Email Id on SignIn Page passed");
+
+	}
+
+	// 9. Search by a keyword in the product search box and validate how many products are matching with the name
+	@Test
+	public void _9_SearchProduct()
+	{
+		elemementActions.doSendKeys(LandingPage_Locators.searchBox, "Dress");
+		elemementActions.waitForElementPresent(LandingPage_Locators.searchBoxResultList);
+
+		List<WebElement> elementsList = elemementActions.getElementsList(LandingPage_Locators.searchBoxResultList);
+
+		int countOfProductsWithKeyword = 0;
+
+		for (int i = 0; i < elementsList.size(); i++) 
+		{
+			if (elementsList.get(i).getText().contains("Dress")) 
+			{
+				countOfProductsWithKeyword = countOfProductsWithKeyword + 1;
+			}
+		} 
+		if (countOfProductsWithKeyword == 5) {
+			Assert.assertTrue(true);
+		}
+
+	}
+
+	// 10. Fetch the all product price and get its total
+	@Test
+	public void _10_GetProductPriceTotal()
+	{
+		elemementActions.doClick(LandingPage_Locators.topMenuDressesCategory);
+		List<WebElement> productPriceListElement = elemementActions.getElementsList(ProductDetails.DressedPriceList);
+		double priceTotal = 0;
+		double expectedTotalPrice = 152.87000000000003;
+		for (int i = 0; i < productPriceListElement.size(); i++) 
+		{
+			priceTotal = priceTotal + Double.parseDouble(productPriceListElement.get(i).getText().trim().substring(1));
+			System.out.println(productPriceListElement.get(i).getText().trim().substring(1));
+		}System.out.println(priceTotal);
+
+		if (priceTotal == expectedTotalPrice) {
+			Assert.assertTrue(true);
+		}
+		else {
+			Assert.assertTrue(false);
+		}
+	}
+
+	// 11. Send a Friend Feature
+	@Test
+	public void _11_RecomendToFriend()
+	{
+		elemementActions.doClick(LandingPage_Locators.topMenuTShirtCategory);
+		elemementActions.doMoveToElement(ProductDetails.optionsToBuyProduct);
+		elemementActions.doActionsClick(ProductDetails.MoreOptionButton);
+		
+		elemementActions.waitForElementClickable(ProductDetails.SendFriendButton);
+		elemementActions.doClick(ProductDetails.SendFriendButton);
+		
+		elemementActions.waitForElementClickable(ProductDetails.FrinedNameTextBox);
+		elemementActions.doSendKeys(ProductDetails.FrinedNameTextBox, ProductDetails_Variables.FriendNameForRecommendation);
+		elemementActions.doSendKeys(ProductDetails.FrinedEmailIdTextBox, ProductDetails_Variables.FriendEmailIdForRecommendation);
+		
+		elemementActions.waitForElementClickable(ProductDetails.FrinedMailSendButton);
+		elemementActions.doActionsClick(ProductDetails.FrinedMailSendButton);
+		
+		elemementActions.waitForElementVisible(ProductDetails.emailConfirmationMessageText);
+		System.out.println(elemementActions.doGetText(ProductDetails.emailConfirmationMessageText));
+		
+		Assert.assertEquals("Email Confirmation message is not machtching with the expected string", ProductDetails_Variables.recomendationEmailConformationText, elemementActions.doGetText(ProductDetails.emailConfirmationMessageText));
+		
+	}
+
+	// 12. Change in the image using Color Feature
+	@Test
+	public void _12_productColourSelection()
+	{
+		elemementActions.doClick(LandingPage_Locators.topMenuTShirtCategory);
+		String orangeColourImageSourceLink = elemementActions.getAttributeValue(ProductDetails.FadedTShritOrgangeColourImage, "src", driver);
+		System.out.println("Orange Colour Tshirt product Image Source Link : " + orangeColourImageSourceLink);
+
+		javaScriptUtil.clickElementByJS(elemementActions.getElement(ProductDetails.FadedTShritBlueColourIcon));
+		//elemementActions.doActionsClick(ProductDetails.FadedTShritBlueColourIcon);
+		elemementActions.waitForElementVisible(ProductDetails.FadedTShritBlueColourImage);
+		String blueColourImageSourceLink = elemementActions.getAttributeValue(ProductDetails.FadedTShritBlueColourImage, "src", driver);
+		System.out.println("Blue Colour Tshirt product Image Source Link : " + blueColourImageSourceLink);
+
+		if (!(orangeColourImageSourceLink.equals(blueColourImageSourceLink))) {
+			Assert.assertTrue(true);
+		}
+		else {
+			Assert.assertTrue(false);
+		}
+	}
+
+	@After
+	public void teardown()
+	{
+		driver.quit();
+	}
+
+}
+
+
+
+package _9_CrossBrowserTesting._2_CrossBrowserTesting.tests;
+
+import java.util.Properties;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.LandingPage_Locators;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.SocialMediaPage_Locators;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.utilities.ElementActions;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.utilities.JavaScriptUtil;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.utilities.Utils;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.LandingPage_Variables;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.SignInPage_Variables;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.SocialMediaPage_Variables;
+
+public class _3_Test {
+	
+	WebDriver driver;
+	WebDriverWait wait;
+	Properties prop;
+	Utils utils;
+	ElementActions elemementActions;
+	JavaScriptUtil javaScriptUtil;
+
+	@Before
+	public void setUp()
+	{
+		utils = new Utils();
+		prop = utils.init_prop();
+		driver = utils.init_driver(prop);
+		elemementActions = new ElementActions(driver);
+		wait = new WebDriverWait(driver, Integer.parseInt(prop.getProperty("WebDriverWaitTimeout")));
+		javaScriptUtil = new JavaScriptUtil(driver);
+	}
+	
+	
+	// Validate Social Media Handles
+	// 13. Facebook Social Media Page Redirection & Validation
+	@Test
+	public void _13_FaceBookMediaHandlesValidation()
+	{
+		elemementActions.doClick(LandingPage_Locators.faceBookLink);
+		elemementActions.switchToWindowId(driver, 1);
+		elemementActions.waitForElementVisible(SocialMediaPage_Locators.youtubeChannelNameElement);
+		String facebookChannelName = elemementActions.doGetText(SocialMediaPage_Locators.youtubeChannelNameElement);
+		Assert.assertEquals("Facebook channel name is not matching", SocialMediaPage_Variables.facebookChannelNameText, facebookChannelName);
+	}
+	
+	// 14. Twitter Social Media Page Redirection & Validation
+	@Test
+	public void _14_TwitterMediaHandlesValidation()
+	{
+		elemementActions.doClick(LandingPage_Locators.twitterLink);
+		elemementActions.switchToWindowId(driver, 1);
+		elemementActions.waitForElementVisible(SocialMediaPage_Locators.twitterChannelNameElement);
+		String twitterChannelName = elemementActions.doGetText(SocialMediaPage_Locators.twitterChannelNameElement);
+		Assert.assertEquals("Facebook channel name is not matching", SocialMediaPage_Variables.twitterChannelNameText, twitterChannelName);
+	}
+	
+	// 15. Youtube Social Media Page Redirection & Validation
+	@Test
+	public void _15_YoutubeMediaHandlesValidation()
+	{
+		elemementActions.doClick(LandingPage_Locators.youTubeLink);
+		elemementActions.switchToWindowId(driver, 1);
+		elemementActions.waitForElementVisible(SocialMediaPage_Locators.youtubeChannelNameElement);
+		String youtubeChannelName = elemementActions.doGetText(SocialMediaPage_Locators.youtubeChannelNameElement);
+		Assert.assertEquals("Facebook channel name is not matching", SocialMediaPage_Variables.youtubeChanneNameText, youtubeChannelName);
+	}
+	
+	
+	// 16. Newsletter subscription
+	@Test
+	public void _16_NewsletterSubscription()
+	{
+		elemementActions.doSendKeys(LandingPage_Locators.newsLetterEmailTextBoxElement, SignInPage_Variables.NewUserEmailID);
+		elemementActions.doClick(LandingPage_Locators.newsLetterEmailSendButtonElement);
+		elemementActions.waitForElementVisible(LandingPage_Locators.newsLetterSubscriptionSuccessAlertElement);
+		Assert.assertEquals("News Letter Subscription Message is not matching with expected value", LandingPage_Variables.newsLetterSubscriptionSuccessAlertText, 
+		elemementActions.doGetText(LandingPage_Locators.newsLetterSubscriptionSuccessAlertElement));	
+	}
+	
+	@After
+	public void teardown()
+	{
+		driver.quit();
+	}
+	
+	
+
+}
+
+package _9_CrossBrowserTesting._2_CrossBrowserTesting.tests;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.AfterRegistartionPage_Locators;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.LandingPage_Locators;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.ProductDetails;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.RegisterUserDetailsPage_Locators;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.SignInPage_Locators;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.SocialMediaPage_Locators;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.utilities.ElementActions;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.utilities.JavaScriptUtil;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.utilities.Utils;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.LandingPage_Variables;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.ProductDetails_Variables;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.RegisterUserDetailsPage_Variables;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.SignInPage_Variables;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.SocialMediaPage_Variables;
+
+/**
+ * 
+ * @author Sarang Holey
+ * 
+ */
+
+
+public class automationpractice {
+	
+	WebDriver driver;
+	WebDriverWait wait;
+	Properties prop;
+	Utils utils;
+	ElementActions elemementActions;
+	JavaScriptUtil javaScriptUtil;
+
+	@Before
+	public void setUp()
+	{
+		utils = new Utils();
+		prop = utils.init_prop();
+		driver = utils.init_driver(prop);
+		elemementActions = new ElementActions(driver);
+		wait = new WebDriverWait(driver, Integer.parseInt(prop.getProperty("WebDriverWaitTimeout")));
+		javaScriptUtil = new JavaScriptUtil(driver);
+	}
+
+	// 1. Url Redirection Test
+	@Test
+	public void _1_urlTest()
+	{
+		Assert.assertEquals("Url redirection is not as expected",LandingPage_Variables.ExpectedRedirectedURL, elemementActions.doGetcurrentURL());
+		System.out.println("Test -> 1. Url Redirection Test Passed");
+	}
+
+	// 2. Landing Page Title Test
+	@Test
+	public void _2_pageTitleTest()
+	{
+
+		Assert.assertEquals("Page title is incorrect",LandingPage_Variables.LandingPageTitle, elemementActions.doGetPageTitle());
+		System.out.println("Test -> 2. Landing Page Title Test passed");
+	}
+
+	// 3. Validate for all categories is displayed
+	@Test
+	public void _3_allCategoriesDisplayedTest()
+	{
+		ArrayList<String> expectedCategoryList = LandingPage_Variables.ExpectedMainProductCategories();
+		
+		List<WebElement> actualProductCategoryList = elemementActions.getElementsList(LandingPage_Locators.ProductCatoegoryList);
+		
+		for (int i = 0; i < expectedCategoryList.size(); i++) 
+		{
+			Assert.assertEquals("Product index no " + (i+1) + " is not matching with expected",expectedCategoryList.get(i), actualProductCategoryList.get(i).getText());
+		}
+		
+		System.out.println("Test -> 3. Validate for all categories is displayed passed");
+	}
+	
+	// 4. Validate Application Logo on landing page is displayed
+	@Test
+	public void _4_validateApplicationLogoOnLandingPage()
+	{
+		Assert.assertEquals("Application Logo on Landing Page is not Displayed",true, elemementActions.doIsDisplayed(LandingPage_Locators.landingPageLogoImage));
+		System.out.println("Test -> 4. Validate Application Logo on landing page is displayed passed");
+	}
+	
+	// 5. Validate Application Logo Height on landing page
+	@Test
+	public void _5_validateApplicationLogoHeightOnLandingPage()
+	{
+		Assert.assertEquals("Apllication Logo height on Landing Page is not matching",LandingPage_Variables.ApplicationLogoHeight, elemementActions.getAttributeValue(LandingPage_Locators.landingPageLogoImage, "height", driver));
+		System.out.println("Test -> 5. Validate Application Logo Height on landing page passed");
+	}
+	
+	// 6. Validate Application Logo Width on landing page
+	@Test
+	public void _6_validateApplicationLogowidthOnLandingPage()
+	{
+		Assert.assertEquals("Application Logo width on Landing Page is not matching", LandingPage_Variables.ApplicationLogoWidth, elemementActions.getAttributeValue(LandingPage_Locators.landingPageLogoImage, "width", driver));
+		System.out.println("Test -> 6. Validate Application Logo Width on landing page passed");
+	}
+
+	// 7. SignIn page title validation test
+	@Test
+	public void _7_SignInPageTitleValidationTest()
+	{
+		elemementActions.doClick(LandingPage_Locators.SigninButtonElement);
+		
+		Assert.assertEquals("Signin Page Title is not matching", SignInPage_Variables.SignInPageTitle, elemementActions.doGetPageTitle());
+		System.out.println("Test -> 7. SignIn page title validation test passed");
+	}
+	
+	// 8. Register User With New Email Id on SignIn Page
+	@Test
+	public void _8_RegisterNewUserTest()
+	{
+		_7_SignInPageTitleValidationTest();
+		
+		elemementActions.doSendKeys(SignInPage_Locators.emailIdInputFieldElement, SignInPage_Variables.NewUserEmailID);
+		
+		elemementActions.doClick(SignInPage_Locators.createAnAccountButtonElement);
+		
+		Assert.assertEquals("\"Create an account\" text is not displayed on register user details page",RegisterUserDetailsPage_Variables.crateAnAccountExpectedText, elemementActions.doGetText(RegisterUserDetailsPage_Locators.CreateAnAccountTextElement));
+		
+		elemementActions.doClick(RegisterUserDetailsPage_Locators.maleGenderRadioButtonElement);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.userFirstNameTextboxElement, RegisterUserDetailsPage_Variables.userFirstName);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.userLastNameTextboxElement, RegisterUserDetailsPage_Variables.userLastName);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.userPasswordTextboxElement, RegisterUserDetailsPage_Variables.userPassword);
+
+		elemementActions.selectByValueFromDropDown(RegisterUserDetailsPage_Locators.userDOBDayDropDownElement, RegisterUserDetailsPage_Variables.DOBDayValue);
+
+		elemementActions.selectByValueFromDropDown(RegisterUserDetailsPage_Locators.userDOBMonthDropDownElement, RegisterUserDetailsPage_Variables.DOBMonthValue);
+
+		elemementActions.selectByValueFromDropDown(RegisterUserDetailsPage_Locators.userDOBYearDropDownElement, RegisterUserDetailsPage_Variables.DOBYearValue);
+		
+		if (RegisterUserDetailsPage_Variables.IsSignUpForNewsLetter) 
+		{
+			elemementActions.doClick(RegisterUserDetailsPage_Locators.signUpForNewsLetterCheckBoxElement);
+		}
+		
+		if (RegisterUserDetailsPage_Variables.IsspecialOfferEmailRec) 
+		{
+			elemementActions.doClick(RegisterUserDetailsPage_Locators.specialOfferEmailRecCheckBoxElement);
+		}
+			
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressComanyNameTextBoxElement, RegisterUserDetailsPage_Variables.AddressComanyName);
+		
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressLine1TextBoxElement, RegisterUserDetailsPage_Variables.AddressLine1Name);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressLine2TextBoxElement, RegisterUserDetailsPage_Variables.AddressLine2Name);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressCityTextBoxElement, RegisterUserDetailsPage_Variables.AddressCity);
+
+		elemementActions.selectByVisibleTextFromDropDown(RegisterUserDetailsPage_Locators.AddressStateDropDownElement, RegisterUserDetailsPage_Variables.AddressState);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressZipCodeTextBoxElement, RegisterUserDetailsPage_Variables.AddressZipCode);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressAdditionalInfoTextBoxElement, RegisterUserDetailsPage_Variables.AddressAdditionalInfo);
+		
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressMobilePhoneTextBoxElement, RegisterUserDetailsPage_Variables.AddressMobilePhone);
+
+		elemementActions.doClick(RegisterUserDetailsPage_Locators.registerFormButtonElement);
+
+		elemementActions.waitForElementVisible(AfterRegistartionPage_Locators.registeredUserNameDisplayElement);
+		Assert.assertEquals("Registered User First Name And Last Name is not displayed correctly after registration", RegisterUserDetailsPage_Variables.userFirstName + " " + RegisterUserDetailsPage_Variables.userLastName,
+				elemementActions.doGetText(AfterRegistartionPage_Locators.registeredUserNameDisplayElement));
+		
+		System.out.println("User Registered Successfully as -> " + RegisterUserDetailsPage_Variables.userFirstName + " " + RegisterUserDetailsPage_Variables.userLastName);
+		
+		System.out.println("Test -> 8. Register User With New Email Id on SignIn Page passed");
+		
+	}
+	
+	// 9. Search by a keyword in the product search box and validate how many products are matching with the name
+	@Test
+	public void _9_SearchProduct()
+	{
+		elemementActions.doSendKeys(LandingPage_Locators.searchBox, "Dress");
+		elemementActions.waitForElementPresent(LandingPage_Locators.searchBoxResultList);
+		
+		List<WebElement> elementsList = elemementActions.getElementsList(LandingPage_Locators.searchBoxResultList);
+		
+		int countOfProductsWithKeyword = 0;
+		
+		for (int i = 0; i < elementsList.size(); i++) 
+		{
+			if (elementsList.get(i).getText().contains("Dress")) 
+			{
+				countOfProductsWithKeyword = countOfProductsWithKeyword + 1;
+			}
+		} 
+		if (countOfProductsWithKeyword == 5) {
+			Assert.assertTrue(true);
+		}
+		
+	}
+	
+	// 10. Fetch the all product price and get its total
+	@Test
+	public void _10_GetProductPriceTotal()
+	{
+		elemementActions.doClick(LandingPage_Locators.topMenuDressesCategory);
+		List<WebElement> productPriceListElement = elemementActions.getElementsList(ProductDetails.DressedPriceList);
+		double priceTotal = 0;
+		double expectedTotalPrice = 152.87000000000003;
+		for (int i = 0; i < productPriceListElement.size(); i++) 
+		{
+			priceTotal = priceTotal + Double.parseDouble(productPriceListElement.get(i).getText().trim().substring(1));
+			System.out.println(productPriceListElement.get(i).getText().trim().substring(1));
+		}System.out.println(priceTotal);
+
+		if (priceTotal == expectedTotalPrice) {
+			Assert.assertTrue(true );
+		}
+		else {
+			Assert.assertTrue(false);
+		}
+	}
+	
+	// 11. Send a Friend Feature
+	@Test
+	public void _11_RecomendToFriend()
+	{
+		elemementActions.doClick(LandingPage_Locators.topMenuTShirtCategory);
+		elemementActions.doMoveToElement(ProductDetails.optionsToBuyProduct);
+		elemementActions.doActionsClick(ProductDetails.MoreOptionButton);
+		
+		elemementActions.waitForElementClickable(ProductDetails.SendFriendButton);
+		elemementActions.doClick(ProductDetails.SendFriendButton);
+		
+		elemementActions.waitForElementClickable(ProductDetails.FrinedNameTextBox);
+		elemementActions.doSendKeys(ProductDetails.FrinedNameTextBox, ProductDetails_Variables.FriendNameForRecommendation);
+		elemementActions.doSendKeys(ProductDetails.FrinedEmailIdTextBox, ProductDetails_Variables.FriendEmailIdForRecommendation);
+		
+		elemementActions.waitForElementClickable(ProductDetails.FrinedMailSendButton);
+		elemementActions.doActionsClick(ProductDetails.FrinedMailSendButton);
+		
+		elemementActions.waitForElementVisible(ProductDetails.emailConfirmationMessageText);
+		System.out.println(elemementActions.doGetText(ProductDetails.emailConfirmationMessageText));
+		
+		Assert.assertEquals("Email Confirmation message is not machtching with the expected string", ProductDetails_Variables.recomendationEmailConformationText, elemementActions.doGetText(ProductDetails.emailConfirmationMessageText));
+		
+	}
+	
+	// 12. Change in the image using Color Feature
+	@Test
+	public void _12_productColourSelection()
+	{
+		elemementActions.doClick(LandingPage_Locators.topMenuTShirtCategory);
+		String orangeColourImageSourceLink = elemementActions.getAttributeValue(ProductDetails.FadedTShritOrgangeColourImage, "src", driver);
+		System.out.println("Orange Colour Tshirt product Image Source Link : " + orangeColourImageSourceLink);
+		
+		javaScriptUtil.clickElementByJS(elemementActions.getElement(ProductDetails.FadedTShritBlueColourIcon));
+		//elemementActions.doActionsClick(ProductDetails.FadedTShritBlueColourIcon);
+		elemementActions.waitForElementVisible(ProductDetails.FadedTShritBlueColourImage);
+		String blueColourImageSourceLink = elemementActions.getAttributeValue(ProductDetails.FadedTShritBlueColourImage, "src", driver);
+		System.out.println("Blue Colour Tshirt product Image Source Link : " + blueColourImageSourceLink);
+		
+		if (!(orangeColourImageSourceLink.equals(blueColourImageSourceLink))) {
+			Assert.assertTrue(true);
+		}
+		else {
+			Assert.assertTrue(false);
+		}
+	}
+	
+	// Validate Social Media Handles
+	// 13. Facebook Social Media Page Redirection & Validation
+	@Test
+	public void _13_FaceBookMediaHandlesValidation()
+	{
+		elemementActions.doClick(LandingPage_Locators.faceBookLink);
+		elemementActions.switchToWindowId(driver, 1);
+		elemementActions.waitForElementVisible(SocialMediaPage_Locators.youtubeChannelNameElement);
+		String facebookChannelName = elemementActions.doGetText(SocialMediaPage_Locators.youtubeChannelNameElement);
+		Assert.assertEquals("Facebook channel name is not matching", SocialMediaPage_Variables.facebookChannelNameText, facebookChannelName);
+	}
+	
+	// 14. Twitter Social Media Page Redirection & Validation
+	@Test
+	public void _14_TwitterMediaHandlesValidation()
+	{
+		elemementActions.doClick(LandingPage_Locators.twitterLink);
+		elemementActions.switchToWindowId(driver, 1);
+		elemementActions.waitForElementVisible(SocialMediaPage_Locators.twitterChannelNameElement);
+		String twitterChannelName = elemementActions.doGetText(SocialMediaPage_Locators.twitterChannelNameElement);
+		Assert.assertEquals("Facebook channel name is not matching", SocialMediaPage_Variables.twitterChannelNameText, twitterChannelName);
+	}
+	
+	// 15. Youtube Social Media Page Redirection & Validation
+	@Test
+	public void _15_YoutubeMediaHandlesValidation()
+	{
+		elemementActions.doClick(LandingPage_Locators.youTubeLink);
+		elemementActions.switchToWindowId(driver, 1);
+		elemementActions.waitForElementVisible(SocialMediaPage_Locators.youtubeChannelNameElement);
+		String youtubeChannelName = elemementActions.doGetText(SocialMediaPage_Locators.youtubeChannelNameElement);
+		Assert.assertEquals("Facebook channel name is not matching", SocialMediaPage_Variables.youtubeChanneNameText, youtubeChannelName);
+	}
+	
+	
+	// 16. Newsletter subscription
+	@Test
+	public void _16_NewsletterSubscription()
+	{
+		elemementActions.doSendKeys(LandingPage_Locators.newsLetterEmailTextBoxElement, SignInPage_Variables.NewUserEmailID);
+		elemementActions.doClick(LandingPage_Locators.newsLetterEmailSendButtonElement);
+		elemementActions.waitForElementVisible(LandingPage_Locators.newsLetterSubscriptionSuccessAlertElement);
+		Assert.assertEquals("News Letter Subscription Message is not matching with expected value", LandingPage_Variables.newsLetterSubscriptionSuccessAlertText, 
+		elemementActions.doGetText(LandingPage_Locators.newsLetterSubscriptionSuccessAlertElement));	
+	}
+	
+
+	@After
+	public void teardown()
+	{
+		driver.quit();
+	}
+	
+
+}
+
+
+package _9_CrossBrowserTesting._2_CrossBrowserTesting.tests;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.AfterRegistartionPage_Locators;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.LandingPage_Locators;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.ProductDetails;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.RegisterUserDetailsPage_Locators;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.SignInPage_Locators;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.locators.SocialMediaPage_Locators;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.utilities.ElementActions;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.utilities.JavaScriptUtil;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.utilities.Utils;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.LandingPage_Variables;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.ProductDetails_Variables;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.RegisterUserDetailsPage_Variables;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.SignInPage_Variables;
+import _9_CrossBrowserTesting._2_CrossBrowserTesting.variables.SocialMediaPage_Variables;
+
+/**
+ * 
+ * @author Sarang Holey
+ * 
+ */
+
+
+public class automationpractice {
+	
+	WebDriver driver;
+	WebDriverWait wait;
+	Properties prop;
+	Utils utils;
+	ElementActions elemementActions;
+	JavaScriptUtil javaScriptUtil;
+
+	@Before
+	public void setUp()
+	{
+		utils = new Utils();
+		prop = utils.init_prop();
+		driver = utils.init_driver(prop);
+		elemementActions = new ElementActions(driver);
+		wait = new WebDriverWait(driver, Integer.parseInt(prop.getProperty("WebDriverWaitTimeout")));
+		javaScriptUtil = new JavaScriptUtil(driver);
+	}
+
+	// 1. Url Redirection Test
+	@Test
+	public void _1_urlTest()
+	{
+		Assert.assertEquals("Url redirection is not as expected",LandingPage_Variables.ExpectedRedirectedURL, elemementActions.doGetcurrentURL());
+		System.out.println("Test -> 1. Url Redirection Test Passed");
+	}
+
+	// 2. Landing Page Title Test
+	@Test
+	public void _2_pageTitleTest()
+	{
+
+		Assert.assertEquals("Page title is incorrect",LandingPage_Variables.LandingPageTitle, elemementActions.doGetPageTitle());
+		System.out.println("Test -> 2. Landing Page Title Test passed");
+	}
+
+	// 3. Validate for all categories is displayed
+	@Test
+	public void _3_allCategoriesDisplayedTest()
+	{
+		ArrayList<String> expectedCategoryList = LandingPage_Variables.ExpectedMainProductCategories();
+		
+		List<WebElement> actualProductCategoryList = elemementActions.getElementsList(LandingPage_Locators.ProductCatoegoryList);
+		
+		for (int i = 0; i < expectedCategoryList.size(); i++) 
+		{
+			Assert.assertEquals("Product index no " + (i+1) + " is not matching with expected",expectedCategoryList.get(i), actualProductCategoryList.get(i).getText());
+		}
+		
+		System.out.println("Test -> 3. Validate for all categories is displayed passed");
+	}
+	
+	// 4. Validate Application Logo on landing page is displayed
+	@Test
+	public void _4_validateApplicationLogoOnLandingPage()
+	{
+		Assert.assertEquals("Application Logo on Landing Page is not Displayed",true, elemementActions.doIsDisplayed(LandingPage_Locators.landingPageLogoImage));
+		System.out.println("Test -> 4. Validate Application Logo on landing page is displayed passed");
+	}
+	
+	// 5. Validate Application Logo Height on landing page
+	@Test
+	public void _5_validateApplicationLogoHeightOnLandingPage()
+	{
+		Assert.assertEquals("Apllication Logo height on Landing Page is not matching",LandingPage_Variables.ApplicationLogoHeight, elemementActions.getAttributeValue(LandingPage_Locators.landingPageLogoImage, "height", driver));
+		System.out.println("Test -> 5. Validate Application Logo Height on landing page passed");
+	}
+	
+	// 6. Validate Application Logo Width on landing page
+	@Test
+	public void _6_validateApplicationLogowidthOnLandingPage()
+	{
+		Assert.assertEquals("Application Logo width on Landing Page is not matching", LandingPage_Variables.ApplicationLogoWidth, elemementActions.getAttributeValue(LandingPage_Locators.landingPageLogoImage, "width", driver));
+		System.out.println("Test -> 6. Validate Application Logo Width on landing page passed");
+	}
+
+	// 7. SignIn page title validation test
+	@Test
+	public void _7_SignInPageTitleValidationTest()
+	{
+		elemementActions.doClick(LandingPage_Locators.SigninButtonElement);
+		
+		Assert.assertEquals("Signin Page Title is not matching", SignInPage_Variables.SignInPageTitle, elemementActions.doGetPageTitle());
+		System.out.println("Test -> 7. SignIn page title validation test passed");
+	}
+	
+	// 8. Register User With New Email Id on SignIn Page
+	@Test
+	public void _8_RegisterNewUserTest()
+	{
+		_7_SignInPageTitleValidationTest();
+		
+		elemementActions.doSendKeys(SignInPage_Locators.emailIdInputFieldElement, SignInPage_Variables.NewUserEmailID);
+		
+		elemementActions.doClick(SignInPage_Locators.createAnAccountButtonElement);
+		
+		Assert.assertEquals("\"Create an account\" text is not displayed on register user details page",RegisterUserDetailsPage_Variables.crateAnAccountExpectedText, elemementActions.doGetText(RegisterUserDetailsPage_Locators.CreateAnAccountTextElement));
+		
+		elemementActions.doClick(RegisterUserDetailsPage_Locators.maleGenderRadioButtonElement);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.userFirstNameTextboxElement, RegisterUserDetailsPage_Variables.userFirstName);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.userLastNameTextboxElement, RegisterUserDetailsPage_Variables.userLastName);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.userPasswordTextboxElement, RegisterUserDetailsPage_Variables.userPassword);
+
+		elemementActions.selectByValueFromDropDown(RegisterUserDetailsPage_Locators.userDOBDayDropDownElement, RegisterUserDetailsPage_Variables.DOBDayValue);
+
+		elemementActions.selectByValueFromDropDown(RegisterUserDetailsPage_Locators.userDOBMonthDropDownElement, RegisterUserDetailsPage_Variables.DOBMonthValue);
+
+		elemementActions.selectByValueFromDropDown(RegisterUserDetailsPage_Locators.userDOBYearDropDownElement, RegisterUserDetailsPage_Variables.DOBYearValue);
+		
+		if (RegisterUserDetailsPage_Variables.IsSignUpForNewsLetter) 
+		{
+			elemementActions.doClick(RegisterUserDetailsPage_Locators.signUpForNewsLetterCheckBoxElement);
+		}
+		
+		if (RegisterUserDetailsPage_Variables.IsspecialOfferEmailRec) 
+		{
+			elemementActions.doClick(RegisterUserDetailsPage_Locators.specialOfferEmailRecCheckBoxElement);
+		}
+			
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressComanyNameTextBoxElement, RegisterUserDetailsPage_Variables.AddressComanyName);
+		
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressLine1TextBoxElement, RegisterUserDetailsPage_Variables.AddressLine1Name);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressLine2TextBoxElement, RegisterUserDetailsPage_Variables.AddressLine2Name);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressCityTextBoxElement, RegisterUserDetailsPage_Variables.AddressCity);
+
+		elemementActions.selectByVisibleTextFromDropDown(RegisterUserDetailsPage_Locators.AddressStateDropDownElement, RegisterUserDetailsPage_Variables.AddressState);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressZipCodeTextBoxElement, RegisterUserDetailsPage_Variables.AddressZipCode);
+
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressAdditionalInfoTextBoxElement, RegisterUserDetailsPage_Variables.AddressAdditionalInfo);
+		
+		elemementActions.doSendKeys(RegisterUserDetailsPage_Locators.AddressMobilePhoneTextBoxElement, RegisterUserDetailsPage_Variables.AddressMobilePhone);
+
+		elemementActions.doClick(RegisterUserDetailsPage_Locators.registerFormButtonElement);
+
+		elemementActions.waitForElementVisible(AfterRegistartionPage_Locators.registeredUserNameDisplayElement);
+		Assert.assertEquals("Registered User First Name And Last Name is not displayed correctly after registration", RegisterUserDetailsPage_Variables.userFirstName + " " + RegisterUserDetailsPage_Variables.userLastName,
+				elemementActions.doGetText(AfterRegistartionPage_Locators.registeredUserNameDisplayElement));
+		
+		System.out.println("User Registered Successfully as -> " + RegisterUserDetailsPage_Variables.userFirstName + " " + RegisterUserDetailsPage_Variables.userLastName);
+		
+		System.out.println("Test -> 8. Register User With New Email Id on SignIn Page passed");
+		
+	}
+	
+	// 9. Search by a keyword in the product search box and validate how many products are matching with the name
+	@Test
+	public void _9_SearchProduct()
+	{
+		elemementActions.doSendKeys(LandingPage_Locators.searchBox, "Dress");
+		elemementActions.waitForElementPresent(LandingPage_Locators.searchBoxResultList);
+		
+		List<WebElement> elementsList = elemementActions.getElementsList(LandingPage_Locators.searchBoxResultList);
+		
+		int countOfProductsWithKeyword = 0;
+		
+		for (int i = 0; i < elementsList.size(); i++) 
+		{
+			if (elementsList.get(i).getText().contains("Dress")) 
+			{
+				countOfProductsWithKeyword = countOfProductsWithKeyword + 1;
+			}
+		} 
+		if (countOfProductsWithKeyword == 5) {
+			Assert.assertTrue(true);
+		}
+		
+	}
+	
+	// 10. Fetch the all product price and get its total
+	@Test
+	public void _10_GetProductPriceTotal()
+	{
+		elemementActions.doClick(LandingPage_Locators.topMenuDressesCategory);
+		List<WebElement> productPriceListElement = elemementActions.getElementsList(ProductDetails.DressedPriceList);
+		double priceTotal = 0;
+		double expectedTotalPrice = 152.87000000000003;
+		for (int i = 0; i < productPriceListElement.size(); i++) 
+		{
+			priceTotal = priceTotal + Double.parseDouble(productPriceListElement.get(i).getText().trim().substring(1));
+			System.out.println(productPriceListElement.get(i).getText().trim().substring(1));
+		}System.out.println(priceTotal);
+
+		if (priceTotal == expectedTotalPrice) {
+			Assert.assertTrue(true );
+		}
+		else {
+			Assert.assertTrue(false);
+		}
+	}
+	
+	// 11. Send a Friend Feature
+	@Test
+	public void _11_RecomendToFriend()
+	{
+		elemementActions.doClick(LandingPage_Locators.topMenuTShirtCategory);
+		elemementActions.doMoveToElement(ProductDetails.optionsToBuyProduct);
+		elemementActions.doActionsClick(ProductDetails.MoreOptionButton);
+		
+		elemementActions.waitForElementClickable(ProductDetails.SendFriendButton);
+		elemementActions.doClick(ProductDetails.SendFriendButton);
+		
+		elemementActions.waitForElementClickable(ProductDetails.FrinedNameTextBox);
+		elemementActions.doSendKeys(ProductDetails.FrinedNameTextBox, ProductDetails_Variables.FriendNameForRecommendation);
+		elemementActions.doSendKeys(ProductDetails.FrinedEmailIdTextBox, ProductDetails_Variables.FriendEmailIdForRecommendation);
+		
+		elemementActions.waitForElementClickable(ProductDetails.FrinedMailSendButton);
+		elemementActions.doActionsClick(ProductDetails.FrinedMailSendButton);
+		
+		elemementActions.waitForElementVisible(ProductDetails.emailConfirmationMessageText);
+		System.out.println(elemementActions.doGetText(ProductDetails.emailConfirmationMessageText));
+		
+		Assert.assertEquals("Email Confirmation message is not machtching with the expected string", ProductDetails_Variables.recomendationEmailConformationText, elemementActions.doGetText(ProductDetails.emailConfirmationMessageText));
+		
+	}
+	
+	// 12. Change in the image using Color Feature
+	@Test
+	public void _12_productColourSelection()
+	{
+		elemementActions.doClick(LandingPage_Locators.topMenuTShirtCategory);
+		String orangeColourImageSourceLink = elemementActions.getAttributeValue(ProductDetails.FadedTShritOrgangeColourImage, "src", driver);
+		System.out.println("Orange Colour Tshirt product Image Source Link : " + orangeColourImageSourceLink);
+		
+		javaScriptUtil.clickElementByJS(elemementActions.getElement(ProductDetails.FadedTShritBlueColourIcon));
+		//elemementActions.doActionsClick(ProductDetails.FadedTShritBlueColourIcon);
+		elemementActions.waitForElementVisible(ProductDetails.FadedTShritBlueColourImage);
+		String blueColourImageSourceLink = elemementActions.getAttributeValue(ProductDetails.FadedTShritBlueColourImage, "src", driver);
+		System.out.println("Blue Colour Tshirt product Image Source Link : " + blueColourImageSourceLink);
+		
+		if (!(orangeColourImageSourceLink.equals(blueColourImageSourceLink))) {
+			Assert.assertTrue(true);
+		}
+		else {
+			Assert.assertTrue(false);
+		}
+	}
+	
+	// Validate Social Media Handles
+	// 13. Facebook Social Media Page Redirection & Validation
+	@Test
+	public void _13_FaceBookMediaHandlesValidation()
+	{
+		elemementActions.doClick(LandingPage_Locators.faceBookLink);
+		elemementActions.switchToWindowId(driver, 1);
+		elemementActions.waitForElementVisible(SocialMediaPage_Locators.youtubeChannelNameElement);
+		String facebookChannelName = elemementActions.doGetText(SocialMediaPage_Locators.youtubeChannelNameElement);
+		Assert.assertEquals("Facebook channel name is not matching", SocialMediaPage_Variables.facebookChannelNameText, facebookChannelName);
+	}
+	
+	// 14. Twitter Social Media Page Redirection & Validation
+	@Test
+	public void _14_TwitterMediaHandlesValidation()
+	{
+		elemementActions.doClick(LandingPage_Locators.twitterLink);
+		elemementActions.switchToWindowId(driver, 1);
+		elemementActions.waitForElementVisible(SocialMediaPage_Locators.twitterChannelNameElement);
+		String twitterChannelName = elemementActions.doGetText(SocialMediaPage_Locators.twitterChannelNameElement);
+		Assert.assertEquals("Facebook channel name is not matching", SocialMediaPage_Variables.twitterChannelNameText, twitterChannelName);
+	}
+	
+	// 15. Youtube Social Media Page Redirection & Validation
+	@Test
+	public void _15_YoutubeMediaHandlesValidation()
+	{
+		elemementActions.doClick(LandingPage_Locators.youTubeLink);
+		elemementActions.switchToWindowId(driver, 1);
+		elemementActions.waitForElementVisible(SocialMediaPage_Locators.youtubeChannelNameElement);
+		String youtubeChannelName = elemementActions.doGetText(SocialMediaPage_Locators.youtubeChannelNameElement);
+		Assert.assertEquals("Facebook channel name is not matching", SocialMediaPage_Variables.youtubeChanneNameText, youtubeChannelName);
+	}
+	
+	
+	// 16. Newsletter subscription
+	@Test
+	public void _16_NewsletterSubscription()
+	{
+		elemementActions.doSendKeys(LandingPage_Locators.newsLetterEmailTextBoxElement, SignInPage_Variables.NewUserEmailID);
+		elemementActions.doClick(LandingPage_Locators.newsLetterEmailSendButtonElement);
+		elemementActions.waitForElementVisible(LandingPage_Locators.newsLetterSubscriptionSuccessAlertElement);
+		Assert.assertEquals("News Letter Subscription Message is not matching with expected value", LandingPage_Variables.newsLetterSubscriptionSuccessAlertText, 
+		elemementActions.doGetText(LandingPage_Locators.newsLetterSubscriptionSuccessAlertElement));	
+	}
+	
+
+	@After
+	public void teardown()
+	{
+		driver.quit();
+	}
+	
+
+}
+ UTILITIES :
+
+package _9_CrossBrowserTesting._2_CrossBrowserTesting.utilities;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+/**
+ * @author Sarang
+ * This class having the method used
+ * to interact with elements on webpage
+ */
+
+public class ElementActions {
+
+	JavaScriptUtil javaScriptUtil;
+	WebDriver driver;
+	WebDriverWait wait;
+	Actions action;
+	Properties prop;
+	Utils utils;
+
+	/**
+	 * This constructor initialize 
+	 * WebDriver, WebDriverWait, Actions, Properties & Utils
+	 * (Interface or Class)
+	 * @param driver
+	 */
+	public ElementActions(WebDriver driver) {
+		this.driver = driver;
+		utils = new Utils();
+		prop = utils.init_prop();
+		wait = new WebDriverWait(this.driver, Integer.parseInt(prop.getProperty("WebDriverWaitTimeout")));
+		action = new Actions(this.driver);
+		javaScriptUtil = new JavaScriptUtil(driver);
+	}
+
+	/**
+	 * Method to initialize WebElement using
+	 * By locator
+	 * @param locator
+	 * @return WebElement
+	 */
+	public WebElement getElement(By locator) {
+		WebElement element = null;
+		if (prop.getProperty("flashTheElement").equalsIgnoreCase("yes") && prop.getProperty("drawBorderToElement").equalsIgnoreCase("yes")) 
+		{
+			element = driver.findElement(locator);
+			javaScriptUtil.drawBorder(element);
+			javaScriptUtil.flash(element);
+		}
+		else if (prop.getProperty("flashTheElement").equalsIgnoreCase("yes")) 
+		{
+			element = driver.findElement(locator);
+			javaScriptUtil.flash(element);
+		}
+		else if (prop.getProperty("drawBorderToElement").equalsIgnoreCase("yes")) 
+		{
+			element = driver.findElement(locator);
+			javaScriptUtil.drawBorder(element);
+		}
+		else
+		{
+			element = driver.findElement(locator);
+		}
+		
+		return element;
+	}
+
+	/**
+	 * Method to initialize list of WebElement using
+	 * By locator
+	 * @param locator
+	 * @return List of element
+	 */
+	public List<WebElement> getElementsList(By locator) 
+	{
+		List<WebElement> element = null;
+		element = driver.findElements(locator);
+		return element;
+	}
+	
+	/**
+	 * This method perform .click operation
+	 * on the WebElement
+	 * @param locator
+	 */
+	public void doClick(By locator) 
+	{
+		getElement(locator).click();
+	}
+
+	/**
+	 * This method perform .click operation
+	 * using actions class
+	 * on the WebElement
+	 * @param locator
+	 */
+	public void doActionsClick(By locator) 
+	{
+		action.click(getElement(locator)).build().perform();
+	}
+
+	/**
+	 * This method perform .sendKeys operation
+	 * on the WebElement
+	 * @param locator & String value for sendKeys operation
+	 */
+	public void doSendKeys(By locator, String value) 
+	{
+		getElement(locator).sendKeys(value);
+	}
+
+	/**
+	 * This method perform .sendKeys operation
+	 * using actions class
+	 * on the WebElement
+	 * @param locator & String value for sendKeys operation
+	 */
+	public void doActionsSendKeys(By locator, String value) 
+	{
+		action.sendKeys(getElement(locator), value).build().perform();
+	}
+
+	/**
+	 * This method perform moveTo operation
+	 * using actions class
+	 * on the WebElement
+	 * @param locator
+	 */
+	public void doMoveToElement(By locator)
+	{
+		action.moveToElement(getElement(locator)).build().perform();
+	}
+
+	/**
+	 * This method check the WebElement is displayed
+	 * on the WebPage and return boolean value
+	 * @param locator
+	 * @return boolean value
+	 */
+	public boolean doIsDisplayed(By locator) {
+		boolean flag = false;
+		flag = getElement(locator).isDisplayed();
+		return flag;
+	}
+
+	/**
+	 * This method check the WebElement is selected
+	 * on the WebPage and return boolean value
+	 * @param locator
+	 * @return boolean value
+	 */
+	public boolean doIsSelected(By locator) {
+		boolean flag = false;
+		flag = getElement(locator).isSelected();
+		return flag;
+	}
+
+	/**
+	 * This method fetches the text on the WebElement
+	 * and return in form of String
+	 * @param locator
+	 * @return String value of the WebElement
+	 */
+	public String doGetText(By locator) {
+		String text = null;
+		text = getElement(locator).getText();
+		return text;
+	}
+
+	/**
+	 * This method fetches the text of current url 
+	 * on the webpage and return in form of String
+	 * @param locator
+	 * @return String value of the current URL
+	 */
+	public String doGetcurrentURL() {
+		String text = null;
+		text = driver.getCurrentUrl();
+		return text;
+	}
+
+	/**
+	 * This method waits for the presenceOfElementLocated
+	 * condition of the WebElement
+	 * @param locator
+	 */
+	public void waitForElementPresent(By locator) {
+		wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+	}
+
+	/**
+	 * This method waits for the frameToBeAvailableAndSwitchToIt
+	 * condition of the frame on the WebElement
+	 * @param locator
+	 */
+	public void waitForFramePresentAndSwitchToIt(By locator) {
+		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(locator));
+	}
+
+	/**
+	 * This method waits for the visibilityOf
+	 * condition of the WebElement
+	 * @param locator
+	 */
+	public void waitForElementVisible(By locator) {
+		WebElement ele = getElement(locator);
+		wait.until(ExpectedConditions.visibilityOf(ele));
+	}
+
+	/**
+	 * This method waits for the elementToBeClickable
+	 * condition of the WebElement
+	 * @param locator
+	 */
+	public void waitForElementClickable(By locator)
+	{
+		wait.until(ExpectedConditions.elementToBeClickable(locator));
+	}
+
+	/**
+	 * This method fetches the title of current webpage 
+	 * and return in form of String
+	 * @param locator
+	 * @return String pageTitle
+	 */
+	public String doGetPageTitle() 
+	{ 
+		return driver.getTitle();
+	}
+
+	/**
+	 * This method wait for the expected title of page
+	 * to be loaded & fetches the title of current webpage 
+	 * and return in form of String
+	 * @param locator
+	 * @return String pageTitle
+	 */
+	public String waitForPageTitleToBe(String title) { 
+		String text = null;
+		wait.until(ExpectedConditions.titleIs(title));
+		text = driver.getTitle();
+		return text;
+	}
+
+	/**
+	 * This method fetches window handles available
+	 * for the current situation on the browser
+	 * @param driver
+	 * @return listOfString
+	 */
+	public List<String> getWindowList(WebDriver driver)
+	{
+		Set<String> windowHandles = driver.getWindowHandles();
+		List<String> windowHandlesList = new ArrayList<String>(windowHandles);
+		return windowHandlesList;
+	}
+
+	/**
+	 * This method switches to the given window id
+	 * in the parameter
+	 * @param driver
+	 * @param windowNumber
+	 */
+	public void switchToWindowId(WebDriver driver, int windowNumber)
+	{
+		List<String> windowList = getWindowList(driver);
+		driver.switchTo().window(windowList.get(windowNumber));
+	}
+
+	/**
+	 * This method returns the list of WebElement
+	 * having a specific tag name given as paramater
+	 * @param htmlTagName
+	 * @param driver
+	 * @return
+	 */
+	public List<WebElement> getTagCount(String htmlTagName, WebDriver driver)
+	{
+		List<WebElement> tagList = driver.findElements(By.tagName(htmlTagName));
+		return tagList;
+	}
+
+	/**
+	 * This method returns the list of WebElement
+	 * having a specific tag name given as paramater
+	 * @param htmlTagName
+	 * @param driver
+	 * @return String text value for the WebElement's AttributeName
+	 */
+	public String getAttributeValue(By locator, String AttributeName, WebDriver driver)
+	{
+		WebElement attributeValue = driver.findElement(locator);
+		return attributeValue.getAttribute(AttributeName);
+	}
+
+	/**
+	 * This method waits until the url having
+	 * the string snippet using urlContains method
+	 * @param titlesnippet
+	 */
+	public void waitForUrl(String titlesnippet)
+	{
+		wait.until(ExpectedConditions.urlContains(titlesnippet));
+	}
+
+	/**
+	 * This method waits until the title of webpage having
+	 * the string snippet using titleContains method
+	 * @param titlesnippet
+	 */
+	public void waitForTitle(String titlesnippet)
+	{
+		wait.until(ExpectedConditions.titleContains(titlesnippet));
+	}
+
+	/**
+	 * This method selects the value from the
+	 * dropdown by selectByValue method
+	 * @param locator
+	 * @param Value
+	 */
+	public void selectByValueFromDropDown(By locator, String Value)
+	{
+		Select selectElement = new Select(getElement(locator));
+		selectElement.selectByValue(Value);
+	}
+	
+	/**
+	 * This method selects the value from the
+	 * dropdown by selectByVisibleText method
+	 * @param locator
+	 * @param Value
+	 */
+	public void selectByVisibleTextFromDropDown(By locator, String Value)
+	{
+		Select selectElement = new Select(getElement(locator));
+		selectElement.selectByVisibleText(Value);
+	}
+}
+
+package _9_CrossBrowserTesting._2_CrossBrowserTesting.variables;
+
+import java.util.ArrayList;
+
+public class LandingPage_Variables {
+	
+	// Variables - Landing Page
+	public static final String ExpectedRedirectedURL = "http://automationpractice.com/index.php";
+	public static final String LandingPageTitle = "My Store";
+	public static final String ApplicationLogoWidth = "350";
+	public static final String ApplicationLogoHeight = "99";
+	
+	public static ArrayList<String> ExpectedMainProductCategories()
+	{
+		ArrayList<String> expectedCategoryList = new ArrayList<>();
+		expectedCategoryList.add("WOMEN");
+		expectedCategoryList.add("DRESSES");
+		expectedCategoryList.add("T-SHIRTS");
+		
+		return expectedCategoryList;
+	}
+	
+	public static final String newsLetterSubscriptionSuccessAlertText = "Newsletter : You have successfully subscribed to this newsletter.";
+
+}
+
+
+package _9_CrossBrowserTesting._2_CrossBrowserTesting.variables;
+
+public class ProductDetails_Variables {
+	
+	public static final String FriendNameForRecommendation = "Tom Peter";
+	public static final String FriendEmailIdForRecommendation = "tom.peter@gmail.com";
+	public static final String recomendationEmailConformationText = "Your e-mail has been sent successfully";
+
+}
+
+package _9_CrossBrowserTesting._2_CrossBrowserTesting.variables;
+
+public class SocialMediaPage_Variables {
+
+	// Variables - Social Media Page
+	public static final String youtubeChanneNameText = "Selenium Framework";
+	public static final String twitterChannelNameText = "Selenium Framework";
+	public static final String facebookChannelNameText = "Selenium Framework";
+	
+}
